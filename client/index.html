@@ -1,0 +1,2327 @@
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+
+        <meta charset="UTF-8">
+
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+        >
+
+        <title>Chaos Party 🎮💣</title>
+
+        <link
+            rel="stylesheet"
+            href="/css/game.css"
+        >
+
+        <style>
+
+            /* =====================================
+               GLOBAL
+               ===================================== */
+
+            * {
+                box-sizing: border-box;
+            }
+
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                min-height: 100%;
+                font-family:
+                    Arial,
+                    Helvetica,
+                    sans-serif;
+                background: #080b14;
+                color: white;
+            }
+
+            button,
+            input {
+                font: inherit;
+            }
+
+            button {
+                cursor: pointer;
+            }
+
+            /* =====================================
+               SCREENS
+               ===================================== */
+
+            .screen {
+                width: 100%;
+                min-height: 100vh;
+            }
+
+            .hidden {
+                display: none !important;
+            }
+
+            /* =====================================
+               HOME
+               ===================================== */
+
+            #home {
+                min-height: 100vh;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                padding: 25px;
+
+                background:
+                    radial-gradient(
+                        circle at top,
+                        #304d9b 0%,
+                        #121a31 42%,
+                        #05070d 100%
+                    );
+            }
+
+            .home-card {
+                width: min(520px, 100%);
+
+                padding: 40px 32px;
+
+                border-radius: 28px;
+
+                text-align: center;
+
+                background:
+                    rgba(15, 23, 42, 0.9);
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.15);
+
+                box-shadow:
+                    0 30px 100px
+                    rgba(0, 0, 0, 0.55);
+
+                backdrop-filter:
+                    blur(15px);
+            }
+
+            .logo {
+                margin: 0;
+
+                font-size: clamp(
+                    42px,
+                    9vw,
+                    68px
+                );
+
+                font-weight: 1000;
+
+                letter-spacing: 3px;
+
+                text-shadow:
+                    0 0 25px
+                    rgba(255, 255, 255, 0.25);
+            }
+
+            .tagline {
+                margin: 10px 0 30px;
+
+                color:
+                    rgba(255, 255, 255, 0.7);
+
+                font-size: 16px;
+            }
+
+            .input-group {
+                margin-bottom: 15px;
+            }
+
+            .input-group input {
+                width: 100%;
+
+                padding: 15px 17px;
+
+                border-radius: 13px;
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.15);
+
+                outline: none;
+
+                background:
+                    rgba(255, 255, 255, 0.07);
+
+                color: white;
+
+                font-size: 16px;
+
+                transition:
+                    border-color 0.2s,
+                    background 0.2s;
+            }
+
+            .input-group input::placeholder {
+                color:
+                    rgba(255, 255, 255, 0.45);
+            }
+
+            .input-group input:focus {
+                border-color:
+                    rgba(100, 150, 255, 0.8);
+
+                background:
+                    rgba(255, 255, 255, 0.1);
+            }
+
+            .primary-button,
+            .secondary-button {
+                width: 100%;
+
+                padding: 14px 18px;
+
+                border: none;
+
+                border-radius: 13px;
+
+                font-weight: 800;
+
+                font-size: 15px;
+
+                transition:
+                    transform 0.2s,
+                    filter 0.2s;
+            }
+
+            .primary-button {
+                color: white;
+
+                background:
+                    linear-gradient(
+                        135deg,
+                        #4f7cff,
+                        #7654ff
+                    );
+            }
+
+            .secondary-button {
+                color: white;
+
+                background:
+                    rgba(255, 255, 255, 0.08);
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.12);
+            }
+
+            .primary-button:hover,
+            .secondary-button:hover {
+                transform:
+                    translateY(-2px);
+
+                filter:
+                    brightness(1.12);
+            }
+
+            .primary-button:active,
+            .secondary-button:active {
+                transform:
+                    scale(0.98);
+            }
+
+            .divider {
+                display: flex;
+
+                align-items: center;
+
+                gap: 12px;
+
+                margin: 20px 0;
+
+                color:
+                    rgba(255, 255, 255, 0.35);
+
+                font-size: 12px;
+            }
+
+            .divider::before,
+            .divider::after {
+                content: "";
+
+                flex: 1;
+
+                height: 1px;
+
+                background:
+                    rgba(255, 255, 255, 0.1);
+            }
+
+            .room-input {
+                display: flex;
+
+                gap: 8px;
+            }
+
+            .room-input input {
+                flex: 1;
+            }
+
+            .room-input button {
+                width: 120px;
+            }
+
+            #status {
+                min-height: 22px;
+
+                margin-top: 18px;
+
+                color:
+                    #ffcc66;
+
+                font-size: 14px;
+
+                font-weight: 600;
+            }
+
+            /* =====================================
+               LOBBY
+               ===================================== */
+
+            #lobby {
+                min-height: 100vh;
+
+                padding: 25px;
+
+                background:
+                    radial-gradient(
+                        circle at top,
+                        #263b73,
+                        #0a0e19 65%
+                    );
+            }
+
+            .lobby-container {
+                width: min(750px, 100%);
+
+                margin: 0 auto;
+            }
+
+            .lobby-header {
+                text-align: center;
+
+                margin-bottom: 25px;
+            }
+
+            .lobby-header h1 {
+                margin: 0 0 10px;
+
+                font-size: 38px;
+            }
+
+            .room-code-box {
+                display: inline-flex;
+
+                flex-direction: column;
+
+                gap: 5px;
+
+                padding: 12px 25px;
+
+                border-radius: 15px;
+
+                background:
+                    rgba(255, 255, 255, 0.08);
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.12);
+            }
+
+            .room-code-label {
+                font-size: 11px;
+
+                text-transform: uppercase;
+
+                letter-spacing: 2px;
+
+                color:
+                    rgba(255, 255, 255, 0.5);
+            }
+
+            #displayRoomCode {
+                font-size: 28px;
+
+                font-weight: 900;
+
+                letter-spacing: 6px;
+
+                color: #8fb3ff;
+            }
+
+            .lobby-card {
+                padding: 25px;
+
+                border-radius: 22px;
+
+                background:
+                    rgba(15, 23, 42, 0.88);
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.12);
+
+                box-shadow:
+                    0 20px 60px
+                    rgba(0, 0, 0, 0.4);
+            }
+
+            .players-heading {
+                display: flex;
+
+                justify-content: space-between;
+
+                align-items: center;
+
+                margin-bottom: 15px;
+            }
+
+            .players-heading h2 {
+                margin: 0;
+
+                font-size: 20px;
+            }
+
+            #playerCount {
+                padding: 5px 10px;
+
+                border-radius: 20px;
+
+                background:
+                    rgba(79, 124, 255, 0.18);
+
+                color: #9bb8ff;
+
+                font-size: 13px;
+
+                font-weight: 700;
+            }
+
+            #playersList {
+                display: flex;
+
+                flex-direction: column;
+
+                gap: 9px;
+
+                min-height: 80px;
+            }
+
+            .lobby-player {
+                display: flex;
+
+                justify-content: space-between;
+
+                align-items: center;
+
+                padding: 12px 15px;
+
+                border-radius: 12px;
+
+                background:
+                    rgba(255, 255, 255, 0.055);
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.07);
+            }
+
+            .lobby-player-name {
+                font-weight: 700;
+            }
+
+            .host-badge {
+                margin-left: 7px;
+
+                padding: 3px 7px;
+
+                border-radius: 6px;
+
+                background: #ffb703;
+
+                color: #111;
+
+                font-size: 10px;
+
+                font-weight: 900;
+            }
+
+            .ready-badge {
+                padding: 4px 9px;
+
+                border-radius: 8px;
+
+                font-size: 11px;
+
+                font-weight: 800;
+            }
+
+            .ready {
+                background:
+                    rgba(34, 197, 94, 0.18);
+
+                color: #4ade80;
+            }
+
+            .not-ready {
+                background:
+                    rgba(255, 255, 255, 0.07);
+
+                color:
+                    rgba(255, 255, 255, 0.45);
+            }
+
+            .lobby-actions {
+                margin-top: 20px;
+
+                display: flex;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+            #lobbyMessage {
+                min-height: 20px;
+
+                text-align: center;
+
+                color:
+                    rgba(255, 255, 255, 0.6);
+
+                font-size: 13px;
+            }
+
+            /* =====================================
+               COUNTDOWN
+               ===================================== */
+
+            #countdown {
+                position: fixed;
+
+                inset: 0;
+
+                z-index: 2000;
+
+                display: flex;
+
+                justify-content: center;
+
+                align-items: center;
+
+                background:
+                    radial-gradient(
+                        circle,
+                        #182d5a,
+                        #05070d 75%
+                    );
+            }
+
+            .countdown-content {
+                text-align: center;
+            }
+
+            .countdown-title {
+                margin-bottom: 15px;
+
+                font-size: 25px;
+
+                font-weight: 800;
+
+                letter-spacing: 3px;
+
+                color:
+                    rgba(255, 255, 255, 0.75);
+            }
+
+            #countdownNumber {
+                font-size:
+                    clamp(
+                        100px,
+                        25vw,
+                        220px
+                    );
+
+                font-weight: 1000;
+
+                line-height: 1;
+
+                color: white;
+
+                text-shadow:
+                    0 0 40px
+                    rgba(100, 150, 255, 0.8);
+
+                animation:
+                    countdownPop
+                    0.9s
+                    ease-out;
+            }
+
+            @keyframes countdownPop {
+
+                0% {
+                    transform: scale(1.5);
+
+                    opacity: 0;
+                }
+
+                40% {
+                    transform: scale(1);
+
+                    opacity: 1;
+                }
+
+                100% {
+                    transform: scale(0.9);
+
+                    opacity: 0.9;
+                }
+            }
+
+            /* =====================================
+               GAME SCREEN
+               ===================================== */
+
+            #game {
+                min-height: 100vh;
+            }
+
+            /* =====================================
+               ROUND DISPLAY
+               ===================================== */
+
+            .game-title-area {
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 4px;
+            }
+
+            .round-display {
+                display: inline-block;
+
+                width: fit-content;
+
+                padding: 4px 10px;
+
+                border-radius: 7px;
+
+                background:
+                    rgba(255, 255, 255, 0.08);
+
+                border:
+                    1px solid
+                    rgba(255, 255, 255, 0.12);
+
+                color:
+                    rgba(255, 255, 255, 0.7);
+
+                font-size: 11px;
+
+                font-weight: 800;
+
+                letter-spacing: 1.5px;
+            }
+
+            /* =====================================
+               MOBILE
+               ===================================== */
+
+            @media (max-width: 600px) {
+
+                #home {
+                    padding: 15px;
+                }
+
+                .home-card {
+                    padding: 30px 20px;
+
+                    border-radius: 22px;
+                }
+
+                .logo {
+                    font-size: 42px;
+                }
+
+                #lobby {
+                    padding: 15px;
+                }
+
+                .lobby-header h1 {
+                    font-size: 30px;
+                }
+
+                .lobby-card {
+                    padding: 18px;
+                }
+
+                .room-input {
+                    flex-direction: column;
+                }
+
+                .room-input button {
+                    width: 100%;
+                }
+
+                #displayRoomCode {
+                    font-size: 24px;
+                }
+
+            }
+
+        </style>
+
+
+    <style id="chaosTruePageNavigation">
+    /* =========================================================
+       CHAOS PARTY — TRUE SCREEN NAVIGATION
+       HOME → LOBBY → COUNTDOWN → GAME
+       Only one major screen is visible at a time.
+       ========================================================= */
+
+    html,
+    body{
+        width:100%;
+        min-height:100%;
+        margin:0;
+        overflow:hidden !important;
+    }
+
+    body{
+        position:relative;
+    }
+
+    /* Every major screen occupies the exact same viewport. */
+    body > .screen,
+    body > section.screen,
+    .screen{
+        position:fixed !important;
+        inset:0 !important;
+        width:100% !important;
+        min-width:100% !important;
+        height:100% !important;
+        min-height:100% !important;
+        max-height:none !important;
+        margin:0 !important;
+        overflow:auto !important;
+        overscroll-behavior:contain !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Hidden really means GONE — it cannot remain underneath another page. */
+    .screen.hidden{
+        display:none !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+    }
+
+    /* Visible screen is the only interactive layer. */
+    .screen:not(.hidden){
+        display:block !important;
+        visibility:visible !important;
+        pointer-events:auto !important;
+        z-index:10;
+    }
+
+    /* Home gets a centered viewport rather than document-flow positioning. */
+    #home.screen:not(.hidden){
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+    }
+
+    /* Lobby gets its own independent viewport. */
+    #lobby.screen:not(.hidden){
+        display:block !important;
+        padding:28px 18px 40px !important;
+        box-sizing:border-box !important;
+    }
+
+    /* Countdown and game become independent pages too. */
+    #countdown.screen:not(.hidden),
+    #game.screen:not(.hidden){
+        display:block !important;
+    }
+
+    /* Prevent a previous page's scroll position from visually carrying over. */
+    body.page-lobby #home,
+    body.page-countdown #home,
+    body.page-game #home{
+        display:none !important;
+    }
+
+    /* Safety: if any browser/plugin tries to restore old page layout,
+       only the active screen can paint. */
+    .screen.hidden *,
+    .screen.hidden::before,
+    .screen.hidden::after{
+        visibility:hidden !important;
+    }
+    </style>
+
+
+    <style id="chaosUnifiedPremiumExperience">
+    /* ============================================================
+       CHAOS PARTY — UNIFIED PREMIUM EXPERIENCE
+       DESIGN + TRUE SCREEN NAVIGATION
+       HOME → LOBBY → COUNTDOWN → GAME
+       Birthday reveal/game logic is not changed.
+       ============================================================ */
+
+    :root{
+        --cp-black:#050506;
+        --cp-charcoal:#0d0e11;
+        --cp-panel:rgba(18,17,17,.82);
+        --cp-gold:#d8b36a;
+        --cp-gold-hi:#ffe8ad;
+        --cp-ivory:#f7f1e5;
+        --cp-muted:rgba(247,241,229,.62);
+        --cp-wine:#5a1f35;
+    }
+
+    /* -------- GLOBAL CINEMATIC FOUNDATION -------- */
+    html,body{
+        width:100%;
+        min-height:100%;
+        margin:0;
+        overflow:hidden !important;
+        background:#030405 !important;
+        color:var(--cp-ivory) !important;
+    }
+
+    body{
+        position:relative;
+        font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif !important;
+    }
+
+    body::before{
+        content:"";
+        position:fixed;
+        inset:0;
+        z-index:-10;
+        pointer-events:none;
+        background:
+            radial-gradient(ellipse at 50% -10%,rgba(216,179,106,.12),transparent 38%),
+            radial-gradient(ellipse at 4% 72%,rgba(90,31,53,.14),transparent 34%),
+            radial-gradient(ellipse at 96% 76%,rgba(143,227,223,.055),transparent 28%),
+            linear-gradient(145deg,#020203,#0a0a0c 50%,#030405);
+    }
+
+    body::after{
+        content:"";
+        position:fixed;
+        inset:0;
+        z-index:9999;
+        pointer-events:none;
+        opacity:.035;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* -------- TRUE SCREEN NAVIGATION -------- */
+    .screen{
+        position:fixed !important;
+        inset:0 !important;
+        width:100% !important;
+        min-width:100% !important;
+        height:100% !important;
+        min-height:100% !important;
+        max-height:none !important;
+        margin:0 !important;
+        box-sizing:border-box !important;
+        overflow:auto !important;
+        overscroll-behavior:contain !important;
+        isolation:isolate;
+    }
+
+    .screen.hidden{
+        display:none !important;
+        visibility:hidden !important;
+        pointer-events:none !important;
+    }
+
+    .screen:not(.hidden){
+        display:block !important;
+        visibility:visible !important;
+        pointer-events:auto !important;
+        z-index:10;
+    }
+
+    #home.screen:not(.hidden){
+        display:flex !important;
+        align-items:center !important;
+        justify-content:center !important;
+        padding:28px 18px !important;
+    }
+
+    #lobby.screen:not(.hidden){
+        padding:28px 18px 44px !important;
+    }
+
+    body.page-home #lobby,
+    body.page-home #countdown,
+    body.page-home #game,
+    body.page-lobby #home,
+    body.page-lobby #countdown,
+    body.page-lobby #game,
+    body.page-countdown #home,
+    body.page-countdown #lobby,
+    body.page-countdown #game,
+    body.page-game #home,
+    body.page-game #lobby,
+    body.page-game #countdown{
+        display:none !important;
+    }
+
+    /* -------- HOME: LUXURY CLIENT-FACING DESIGN -------- */
+    #home::before{
+        content:"";
+        position:absolute;
+        width:min(820px,90vw);
+        height:min(820px,90vw);
+        left:50%;
+        top:50%;
+        transform:translate(-50%,-52%);
+        border-radius:50%;
+        background:
+            radial-gradient(circle,rgba(216,179,106,.13),rgba(90,31,53,.055) 30%,transparent 68%);
+        filter:blur(25px);
+        z-index:-1;
+        animation:cpLuxuryBreath 7s ease-in-out infinite;
+    }
+
+    .home-card{
+        position:relative !important;
+        width:min(590px,94vw) !important;
+        padding:58px 52px 48px !important;
+        border-radius:30px !important;
+        overflow:hidden;
+        background:
+            linear-gradient(145deg,
+                rgba(27,24,22,.90),
+                rgba(8,9,11,.86) 52%,
+                rgba(27,17,22,.88)) !important;
+        border:1px solid rgba(216,179,106,.28) !important;
+        box-shadow:
+            0 50px 140px rgba(0,0,0,.72),
+            0 0 80px rgba(216,179,106,.07),
+            inset 0 1px 0 rgba(255,255,255,.065) !important;
+        backdrop-filter:blur(30px) saturate(125%) !important;
+        -webkit-backdrop-filter:blur(30px) saturate(125%) !important;
+        transform-style:preserve-3d;
+        transition:transform .18s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .home-card::before{
+        content:"";
+        position:absolute;
+        inset:1px;
+        border-radius:29px;
+        pointer-events:none;
+        background:
+            linear-gradient(125deg,
+                rgba(255,235,190,.12),
+                transparent 20% 66%,
+                rgba(216,179,106,.06));
+    }
+
+    .home-card::after{
+        content:"";
+        position:absolute;
+        left:-35%;
+        top:-5%;
+        width:170%;
+        height:1px;
+        background:linear-gradient(90deg,transparent,#d8b36a,#ffe8ad,#d8b36a,transparent);
+        box-shadow:0 0 24px rgba(216,179,106,.42);
+        animation:cpScan 6s linear infinite;
+    }
+
+    .logo{
+        position:relative;
+        margin:0 0 12px !important;
+        font-family:Georgia,"Times New Roman",serif !important;
+        font-size:clamp(48px,6vw,70px) !important;
+        line-height:.95 !important;
+        letter-spacing:7px !important;
+        font-weight:700 !important;
+        color:#fffaf0 !important;
+        text-shadow:
+            0 1px 0 rgba(0,0,0,.8),
+            0 0 22px rgba(255,231,168,.14);
+    }
+
+    .logo::before{
+        content:"EST. 2026  •  PRIVATE PARTY EXPERIENCE";
+        display:block;
+        margin-bottom:17px;
+        font-family:Inter,Arial,sans-serif;
+        font-size:8px;
+        letter-spacing:4px;
+        font-weight:800;
+        color:rgba(255,231,168,.62);
+    }
+
+    .logo::after{
+        content:"";
+        display:block;
+        width:118px;
+        height:1px;
+        margin:22px auto 0;
+        background:linear-gradient(90deg,transparent,#d8b36a,#ffe8ad,#d8b36a,transparent);
+        box-shadow:0 0 15px rgba(216,179,106,.55);
+    }
+
+    .tagline{
+        color:var(--cp-muted) !important;
+        letter-spacing:2.3px !important;
+        font-size:12px !important;
+    }
+
+    #playerName,#roomCode{
+        height:58px !important;
+        border-radius:17px !important;
+        border:1px solid rgba(216,179,106,.18) !important;
+        color:#fff !important;
+        background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018)) !important;
+        box-shadow:
+            0 12px 38px rgba(0,0,0,.24),
+            inset 0 1px 0 rgba(255,255,255,.055) !important;
+        outline:none !important;
+    }
+
+    #playerName:focus,#roomCode:focus{
+        border-color:rgba(216,179,106,.62) !important;
+        box-shadow:
+            0 0 0 4px rgba(216,179,106,.06),
+            0 0 36px rgba(216,179,106,.13),
+            inset 0 1px 0 rgba(255,255,255,.08) !important;
+    }
+
+    .primary-button,#joinRoom{
+        position:relative;
+        overflow:hidden;
+        height:58px !important;
+        border-radius:17px !important;
+        background:linear-gradient(105deg,#9a6b2f,#d8b36a 38%,#f2d18f 52%,#b47b35) !important;
+        color:#17110a !important;
+        border:1px solid rgba(255,239,190,.55) !important;
+        font-weight:950 !important;
+        letter-spacing:1.1px !important;
+        box-shadow:
+            0 15px 38px rgba(120,78,26,.30),
+            inset 0 1px 0 rgba(255,255,255,.62) !important;
+        transition:transform .22s ease,filter .22s ease,box-shadow .22s ease !important;
+    }
+
+    .primary-button:hover,#joinRoom:hover{
+        transform:translateY(-3px) !important;
+        filter:brightness(1.07) !important;
+        box-shadow:
+            0 20px 48px rgba(216,179,106,.26),
+            0 0 28px rgba(216,179,106,.16),
+            inset 0 1px 0 rgba(255,255,255,.75) !important;
+    }
+
+    .divider{
+        color:rgba(248,243,232,.34) !important;
+    }
+
+    .room-input{
+        display:grid !important;
+        grid-template-columns:1fr 140px;
+        gap:10px;
+    }
+
+    /* -------- LOBBY: SAME DESIGN LANGUAGE -------- */
+    #lobby{
+        background:
+            radial-gradient(ellipse at 50% 0%,rgba(216,179,106,.12),transparent 34%),
+            radial-gradient(ellipse at 8% 75%,rgba(90,31,53,.11),transparent 30%),
+            linear-gradient(145deg,#030405,#0b0a0a 52%,#040405);
+    }
+
+    #lobby::before{
+        content:"";
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background:
+            linear-gradient(rgba(216,179,106,.014) 1px,transparent 1px),
+            linear-gradient(90deg,rgba(216,179,106,.010) 1px,transparent 1px);
+        background-size:80px 80px;
+        opacity:.55;
+        animation:cpGrid 26s linear infinite;
+    }
+
+    #lobby h1,
+    #lobby h2,
+    #lobby h3{
+        color:#fffaf0 !important;
+        text-shadow:0 0 24px rgba(216,179,106,.08);
+    }
+
+    #lobby .lobby-container,
+    #lobby .lobby-card,
+    #lobby .players-container,
+    #lobby .room-card{
+        border-color:rgba(216,179,106,.20) !important;
+        background:
+            linear-gradient(145deg,rgba(24,22,21,.82),rgba(7,8,10,.78)) !important;
+        box-shadow:
+            0 30px 90px rgba(0,0,0,.50),
+            inset 0 1px 0 rgba(255,255,255,.05) !important;
+        backdrop-filter:blur(24px) saturate(120%);
+        -webkit-backdrop-filter:blur(24px) saturate(120%);
+    }
+
+    #lobby .room-code,
+    #lobby #roomCodeDisplay{
+        color:#ffe8ad !important;
+        text-shadow:0 0 24px rgba(216,179,106,.25);
+    }
+
+    #lobby button{
+        border-radius:15px !important;
+        transition:transform .2s ease,filter .2s ease,box-shadow .2s ease !important;
+    }
+
+    #lobby button:hover{
+        transform:translateY(-2px);
+    }
+
+    /* -------- COUNTDOWN / GAME ROUTES -------- */
+    #countdown,#game{
+        overflow:hidden !important;
+    }
+
+    /* Preserve existing game CSS and birthday CSS underneath this layer. */
+
+    /* -------- SMALL SCREEN -------- */
+    @media(max-width:700px){
+        #home.screen:not(.hidden){
+            padding:16px 12px !important;
+        }
+        .home-card{
+            padding:44px 22px 30px !important;
+            border-radius:25px !important;
+        }
+        .logo{
+            font-size:clamp(42px,13vw,58px) !important;
+            letter-spacing:4px !important;
+        }
+        .logo::before{
+            font-size:7px;
+            letter-spacing:2.5px;
+        }
+        .room-input{
+            grid-template-columns:1fr !important;
+        }
+        #lobby.screen:not(.hidden){
+            padding:16px 12px 30px !important;
+        }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+        .home-card,.primary-button,#joinRoom{
+            transition:none !important;
+        }
+        #home::before,.home-card::after,#lobby::before{
+            animation:none !important;
+        }
+    }
+
+    @keyframes cpLuxuryBreath{
+        0%,100%{opacity:.55;transform:translate(-50%,-52%) scale(.94)}
+        50%{opacity:1;transform:translate(-50%,-52%) scale(1.07)}
+    }
+    @keyframes cpScan{
+        0%{transform:translateY(-80px)}
+        100%{transform:translateY(720px)}
+    }
+    @keyframes cpGrid{
+        from{transform:translate3d(0,0,0)}
+        to{transform:translate3d(80px,80px,0)}
+    }
+    </style>
+
+    </head>
+
+
+    <body>
+
+        <!-- =====================================
+             HOME SCREEN
+             ===================================== -->
+
+        <section
+            id="home"
+            class="screen"
+        >
+
+            <div class="home-card">
+
+                <h1 class="logo">
+                    CHAOS PARTY 🎮
+                </h1>
+
+                <p class="tagline">
+                    Pass the bomb. Survive the chaos. 💣
+                </p>
+
+
+                <!-- PLAYER NAME -->
+
+                <div class="input-group">
+
+                    <input
+                        id="playerName"
+                        type="text"
+                        maxlength="16"
+                        placeholder="Enter your name"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+
+                <!-- CREATE ROOM -->
+
+                <button
+                    id="createRoom"
+                    class="primary-button"
+                >
+                    🎮 CREATE ROOM
+                </button>
+
+
+                <div class="divider">
+                    OR
+                </div>
+
+
+                <!-- JOIN ROOM -->
+
+                <div class="room-input">
+
+                    <input
+                        id="roomCode"
+                        type="text"
+                        maxlength="5"
+                        placeholder="ROOM CODE"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        id="joinRoom"
+                        class="secondary-button"
+                    >
+                        JOIN
+                    </button>
+
+                </div>
+
+
+                <div id="status"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             LOBBY SCREEN
+             ===================================== -->
+
+        <section
+            id="lobby"
+            class="screen hidden"
+        >
+
+            <div class="lobby-container">
+
+                <div class="lobby-header">
+
+                    <h1>
+                        🎮 PARTY LOBBY
+                    </h1>
+
+                    <div class="room-code-box">
+
+                        <span class="room-code-label">
+                            Room Code
+                        </span>
+
+                        <span id="displayRoomCode">
+                            -----
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="lobby-card">
+
+                    <div class="players-heading">
+
+                        <h2>
+                            Players
+                        </h2>
+
+                        <span id="playerCount">
+                            0 / 8
+                        </span>
+
+                    </div>
+
+
+                    <div id="playersList"></div>
+
+
+                    <div class="lobby-actions">
+
+                        <button
+                            id="readyButton"
+                            class="primary-button"
+                        >
+                            ✅ READY
+                        </button>
+
+
+                        <button
+                            id="startGame"
+                            class="secondary-button"
+                        >
+                            🚀 START GAME
+                        </button>
+
+
+                        <div id="lobbyMessage"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             COUNTDOWN SCREEN
+             ===================================== -->
+
+        <section
+            id="countdown"
+            class="screen hidden"
+        >
+
+            <div class="countdown-content">
+
+                <div class="countdown-title">
+                    GET READY!
+                </div>
+
+                <div id="countdownNumber">
+                    3
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             GAME SCREEN
+             ===================================== -->
+
+        <section
+            id="game"
+            class="screen hidden"
+        >
+
+            <div class="game-wrapper">
+
+                <div class="game-header">
+
+                    <!-- GAME TITLE + ROUND -->
+
+                    <div class="game-title-area">
+
+                        <h1 class="game-title">
+                            💣 CHAOS PARTY
+                        </h1>
+
+                        <div
+                            id="roundDisplay"
+                            class="round-display"
+                        >
+                            ROUND 1
+                        </div>
+
+                    </div>
+
+
+                    <!-- GAME TIMER -->
+
+                    <div
+                        id="gameTimer"
+                        class="game-timer"
+                    >
+                        30
+                    </div>
+
+                </div>
+
+
+                <!-- GAME ARENA -->
+
+                <div
+                    id="arena"
+                    class="arena"
+                ></div>
+
+
+                <!-- CONTROLS -->
+
+                <div class="controls-info">
+
+                    🎮 Move with
+                    <strong>W A S D</strong>
+                    or
+                    <strong>Arrow Keys</strong>
+                    &nbsp; • &nbsp;
+                    💣 Get close to another player to pass the bomb!
+
+                </div>
+
+
+                <!-- MOBILE UP -->
+
+                <div class="mobile-controls">
+
+                    <button
+                        data-direction="up"
+                        type="button"
+                    >
+                        ▲
+                    </button>
+
+                </div>
+
+
+                <!-- MOBILE DIRECTION CONTROLS -->
+
+                <div class="mobile-controls">
+
+                    <button
+                        data-direction="left"
+                        type="button"
+                    >
+                        ◀
+                    </button>
+
+                    <button
+                        data-direction="down"
+                        type="button"
+                    >
+                        ▼
+                    </button>
+
+                    <button
+                        data-direction="right"
+                        type="button"
+                    >
+                        ▶
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             SOCKET.IO
+             ===================================== -->
+
+        <script src="/socket.io/socket.io.js"></script>
+
+
+        <script>
+
+            // =================================
+            // SOCKET CONNECTION
+            // =================================
+
+            var socket = io();
+
+
+            // =================================
+            // DOM
+            // =================================
+
+            const home =
+                document.getElementById(
+                    "home"
+                );
+
+            const lobby =
+                document.getElementById(
+                    "lobby"
+                );
+
+            const countdown =
+                document.getElementById(
+                    "countdown"
+                );
+
+            const game =
+                document.getElementById(
+                    "game"
+                );
+
+            const playerName =
+                document.getElementById(
+                    "playerName"
+                );
+
+            const roomCodeInput =
+                document.getElementById(
+                    "roomCode"
+                );
+
+            const createRoomButton =
+                document.getElementById(
+                    "createRoom"
+                );
+
+            const joinRoomButton =
+                document.getElementById(
+                    "joinRoom"
+                );
+
+            const readyButton =
+                document.getElementById(
+                    "readyButton"
+                );
+
+            const startGameButton =
+                document.getElementById(
+                    "startGame"
+                );
+
+            const status =
+                document.getElementById(
+                    "status"
+                );
+
+            const displayRoomCode =
+                document.getElementById(
+                    "displayRoomCode"
+                );
+
+            const playersList =
+                document.getElementById(
+                    "playersList"
+                );
+
+            const playerCount =
+                document.getElementById(
+                    "playerCount"
+                );
+
+            const lobbyMessage =
+                document.getElementById(
+                    "lobbyMessage"
+                );
+
+            const countdownNumber =
+                document.getElementById(
+                    "countdownNumber"
+                );
+
+
+            // =================================
+            // ROUND DISPLAY
+            // =================================
+
+            const roundDisplay =
+                document.getElementById(
+                    "roundDisplay"
+                );
+
+
+            // =================================
+            // LOCAL STATE
+            // =================================
+
+            let currentRoomCode = null;
+
+            let isHost = false;
+
+            let countdownInterval = null;
+
+
+            // =================================
+            // SCREEN SWITCH
+            // =================================
+
+            function showScreen(
+                screen
+            ) {
+
+                // =================================
+                // TRUE FULL-SCREEN ROUTER
+                // =================================
+
+                const screens = [
+                    home,
+                    lobby,
+                    countdown,
+                    game
+                ];
+
+                screens.forEach(
+                    page => {
+
+                        page.classList.add(
+                            "hidden"
+                        );
+
+                        page.setAttribute(
+                            "aria-hidden",
+                            "true"
+                        );
+
+                        page.style.display =
+                            "none";
+                    }
+                );
+
+                if (!screen) {
+                    return;
+                }
+
+                screen.classList.remove(
+                    "hidden"
+                );
+
+                screen.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+                screen.style.display =
+                    "block";
+
+                // Home needs flex centering.
+                if (screen === home) {
+                    screen.style.display =
+                        "flex";
+                }
+
+                // Make the browser treat this as a
+                // screen transition, not page scrolling.
+                if (screen === lobby) {
+                    document.body.classList
+                        .remove(
+                            "page-home",
+                            "page-countdown",
+                            "page-game"
+                        );
+
+                    document.body.classList
+                        .add(
+                            "page-lobby"
+                        );
+                } else if (
+                    screen === countdown
+                ) {
+                    document.body.classList
+                        .remove(
+                            "page-home",
+                            "page-lobby",
+                            "page-game"
+                        );
+
+                    document.body.classList
+                        .add(
+                            "page-countdown"
+                        );
+                } else if (
+                    screen === game
+                ) {
+                    document.body.classList
+                        .remove(
+                            "page-home",
+                            "page-lobby",
+                            "page-countdown"
+                        );
+
+                    document.body.classList
+                        .add(
+                            "page-game"
+                        );
+                } else {
+                    document.body.classList
+                        .remove(
+                            "page-lobby",
+                            "page-countdown",
+                            "page-game"
+                        );
+
+                    document.body.classList
+                        .add(
+                            "page-home"
+                        );
+                }
+
+                // Always return the new screen to its top.
+                screen.scrollTop = 0;
+            }
+
+
+
+            // =================================
+            // INITIAL SCREEN
+            // =================================
+
+            showScreen(
+                home
+            );
+
+            // =================================
+            // CREATE ROOM
+            // =================================
+
+            createRoomButton.addEventListener(
+                "click",
+                () => {
+
+                    const name =
+                        playerName.value.trim();
+
+                    if (!name) {
+
+                        status.textContent =
+                            "Please enter your name.";
+
+                        playerName.focus();
+
+                        return;
+                    }
+
+                    status.textContent =
+                        "Creating room...";
+
+                    socket.emit(
+                        "createRoom",
+                        {
+                            name
+                        }
+                    );
+                }
+            );
+
+
+            // =================================
+            // JOIN ROOM
+            // =================================
+
+            joinRoomButton.addEventListener(
+                "click",
+                () => {
+
+                    const name =
+                        playerName.value.trim();
+
+                    const code =
+                        roomCodeInput.value
+                            .trim()
+                            .toUpperCase();
+
+                    if (!name) {
+
+                        status.textContent =
+                            "Please enter your name.";
+
+                        playerName.focus();
+
+                        return;
+                    }
+
+                    if (
+                        code.length !== 5
+                    ) {
+
+                        status.textContent =
+                            "Enter a valid 5-character room code.";
+
+                        roomCodeInput.focus();
+
+                        return;
+                    }
+
+                    status.textContent =
+                        "Joining room...";
+
+                    socket.emit(
+                        "joinRoom",
+                        {
+                            name,
+                            roomCode: code
+                        }
+                    );
+                }
+            );
+
+
+            // =================================
+            // ENTER KEY
+            // =================================
+
+            playerName.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        createRoomButton.click();
+                    }
+
+                }
+            );
+
+
+            roomCodeInput.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        joinRoomButton.click();
+                    }
+
+                }
+            );
+
+
+            // =================================
+            // ROOM CREATED
+            // =================================
+
+            socket.on(
+                "roomCreated",
+                data => {
+
+                    if (!data) {
+                        return;
+                    }
+
+                    currentRoomCode =
+                        data.roomCode;
+
+                    isHost = true;
+
+                    showLobby(
+                        data.roomCode
+                    );
+
+                    updatePlayers(
+                        data.players || []
+                    );
+                }
+            );
+
+
+            // =================================
+            // ROOM UPDATED
+            // =================================
+
+            socket.on(
+                "roomUpdated",
+                data => {
+
+                    if (!data) {
+                        return;
+                    }
+
+                    currentRoomCode =
+                        data.roomCode;
+
+                    updatePlayers(
+                        data.players || []
+                    );
+
+                    showLobby(
+                        data.roomCode
+                    );
+                }
+            );
+
+
+            // =================================
+            // SHOW LOBBY
+            // =================================
+
+            function showLobby(
+                code
+            ) {
+
+                showScreen(
+                    lobby
+                );
+
+                displayRoomCode.textContent =
+                    code;
+
+                status.textContent = "";
+
+                updateLobbyControls();
+            }
+
+
+            // =================================
+            // UPDATE PLAYERS
+            // =================================
+
+            function updatePlayers(
+                players
+            ) {
+
+                playersList.innerHTML = "";
+
+                playerCount.textContent =
+                    `${players.length} / 8`;
+
+                players.forEach(
+                    player => {
+
+                        const row =
+                            document.createElement(
+                                "div"
+                            );
+
+                        row.className =
+                            "lobby-player";
+
+
+                        const name =
+                            document.createElement(
+                                "span"
+                            );
+
+                        name.className =
+                            "lobby-player-name";
+
+                        name.textContent =
+                            player.name;
+
+
+                        if (
+                            player.isHost
+                        ) {
+
+                            const badge =
+                                document.createElement(
+                                    "span"
+                                );
+
+                            badge.className =
+                                "host-badge";
+
+                            badge.textContent =
+                                "HOST";
+
+                            name.appendChild(
+                                badge
+                            );
+                        }
+
+
+                        const ready =
+                            document.createElement(
+                                "span"
+                            );
+
+                        ready.className =
+                            "ready-badge";
+
+
+                        if (
+                            player.isHost
+                        ) {
+
+                            ready.classList.add(
+                                "ready"
+                            );
+
+                            ready.textContent =
+                                "HOST";
+
+                        } else if (
+                            player.ready
+                        ) {
+
+                            ready.classList.add(
+                                "ready"
+                            );
+
+                            ready.textContent =
+                                "READY ✓";
+
+                        } else {
+
+                            ready.classList.add(
+                                "not-ready"
+                            );
+
+                            ready.textContent =
+                                "NOT READY";
+                        }
+
+
+                        row.appendChild(
+                            name
+                        );
+
+                        row.appendChild(
+                            ready
+                        );
+
+                        playersList.appendChild(
+                            row
+                        );
+
+                    }
+                );
+
+
+                updateLobbyControls();
+            }
+
+
+            // =================================
+            // LOBBY CONTROLS
+            // =================================
+
+            function updateLobbyControls() {
+
+                if (isHost) {
+
+                    readyButton.classList.add(
+                        "hidden"
+                    );
+
+                    startGameButton.classList.remove(
+                        "hidden"
+                    );
+
+                    lobbyMessage.textContent =
+                        "You are the host. Start when everyone is ready.";
+
+                } else {
+
+                    readyButton.classList.remove(
+                        "hidden"
+                    );
+
+                    startGameButton.classList.add(
+                        "hidden"
+                    );
+
+                    lobbyMessage.textContent =
+                        "Click READY when you're ready!";
+                }
+            }
+
+
+            // =================================
+            // READY BUTTON
+            // =================================
+
+            readyButton.addEventListener(
+                "click",
+                () => {
+
+                    socket.emit(
+                        "toggleReady"
+                    );
+
+                    if (
+                        readyButton.textContent
+                            .includes("READY")
+                    ) {
+
+                        readyButton.textContent =
+                            "⏳ TOGGLE READY";
+
+                    }
+
+                }
+            );
+
+
+            // =================================
+            // START GAME
+            // =================================
+
+            startGameButton.addEventListener(
+                "click",
+                () => {
+
+                    lobbyMessage.textContent =
+                        "Starting game...";
+
+                    socket.emit(
+                        "startGame"
+                    );
+                }
+            );
+
+
+            // =================================
+            // GAME STARTING
+            // =================================
+
+            socket.on(
+                "gameStarting",
+                () => {
+
+                    // Reset round display
+                    if (roundDisplay) {
+
+                        roundDisplay.textContent =
+                            "ROUND 1";
+                    }
+
+                    startCountdown();
+                }
+            );
+
+
+            // =================================
+            // COUNTDOWN
+            // =================================
+
+            function startCountdown() {
+
+                showScreen(
+                    countdown
+                );
+
+                let number = 3;
+
+                countdownNumber.textContent =
+                    number;
+
+                restartCountdownAnimation();
+
+
+                clearInterval(
+                    countdownInterval
+                );
+
+
+                countdownInterval =
+                    setInterval(
+                        () => {
+
+                            number--;
+
+                            if (
+                                number > 0
+                            ) {
+
+                                countdownNumber.textContent =
+                                    number;
+
+                                restartCountdownAnimation();
+
+                            } else {
+
+                                clearInterval(
+                                    countdownInterval
+                                );
+
+                                countdownNumber.textContent =
+                                    "💣";
+
+                                restartCountdownAnimation();
+
+
+                                setTimeout(
+                                    () => {
+
+                                        showScreen(
+                                            game
+                                        );
+
+                                    },
+                                    700
+                                );
+                            }
+
+                        },
+                        1000
+                    );
+            }
+
+
+            // =================================
+            // COUNTDOWN ANIMATION RESTART
+            // =================================
+
+            function restartCountdownAnimation() {
+
+                countdownNumber.style.animation =
+                    "none";
+
+                void countdownNumber.offsetWidth;
+
+                countdownNumber.style.animation =
+                    "countdownPop 0.9s ease-out";
+            }
+
+
+            // =================================
+            // ROOM ERROR
+            // =================================
+
+            socket.on(
+                "roomError",
+                data => {
+
+                    const message =
+                        data &&
+                        data.message
+                            ? data.message
+                            : "Something went wrong.";
+
+                    status.textContent =
+                        message;
+
+                    lobbyMessage.textContent =
+                        message;
+
+                    console.warn(
+                        "Room error:",
+                        message
+                    );
+                }
+            );
+
+
+            // =================================
+            // SOCKET CONNECTION
+            // =================================
+
+            socket.on(
+                "connect",
+                () => {
+
+                    console.log(
+                        "🟢 Connected to server:",
+                        socket.id
+                    );
+                }
+            );
+
+
+            socket.on(
+                "disconnect",
+                () => {
+
+                    console.log(
+                        "🔴 Disconnected from server"
+                    );
+                }
+            );
+
+        </script>
+
+
+        <!-- =====================================
+             GAME CLIENT
+             ===================================== -->
+
+        <script src="/js/game.js"></script>
+
+
+    <script id="chaosUnifiedRouteGuard">
+    (() => {
+        const boot = () => {
+            const ids = ["home","lobby","countdown","game"];
+            const pages = ids.map(id => document.getElementById(id)).filter(Boolean);
+            if (!pages.length) return;
+
+            const sync = () => {
+                const active = pages.find(page => !page.classList.contains("hidden"));
+                if (!active) return;
+
+                pages.forEach(page => {
+                    const isActive = page === active;
+                    page.setAttribute("aria-hidden", String(!isActive));
+                    page.style.pointerEvents = isActive ? "auto" : "none";
+                    page.style.visibility = isActive ? "visible" : "hidden";
+                    if (!isActive) page.style.display = "none";
+                });
+
+                active.style.display =
+                    active.id === "home" ? "flex" : "block";
+
+                active.scrollTop = 0;
+
+                document.body.classList.remove(
+                    "page-home","page-lobby","page-countdown","page-game"
+                );
+                document.body.classList.add("page-" + active.id);
+            };
+
+            // Existing showScreen remains responsible for game logic.
+            // This observer only enforces the visual one-screen rule.
+            pages.forEach(page => {
+                new MutationObserver(sync).observe(page, {
+                    attributes:true,
+                    attributeFilter:["class","style"]
+                });
+            });
+
+            sync();
+        };
+
+        if (document.readyState === "loading") {
+            document.addEventListener("DOMContentLoaded",boot,{once:true});
+        } else {
+            boot();
+        }
+    })();
+    </script>
+
+    </body>
+
+    </html>
