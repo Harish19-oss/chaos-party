@@ -2431,3 +2431,313 @@
             animation:none !important;
         }
     }
+/* =========================================================
+   CHAOS PARTY — UNIVERSAL D-PAD POSITION FIX
+   Desktop + Mobile
+   ========================================================= */
+
+#universalMovementControls {
+    position: fixed !important;
+
+    left: 24px !important;
+    bottom: 24px !important;
+
+    width: 166px !important;
+    height: 188px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+
+    z-index: 999999 !important;
+
+    pointer-events: none !important;
+
+    box-sizing: border-box !important;
+}
+
+/* MOVE label */
+
+#universalMovementControls .mobile-controls-label {
+    display: block !important;
+
+    margin: 0 0 5px 0 !important;
+    padding: 5px 11px !important;
+
+    border-radius: 999px !important;
+
+    background: rgba(5, 8, 15, 0.85) !important;
+
+    border: 1px solid rgba(255,255,255,0.12) !important;
+
+    color: rgba(255,255,255,0.7) !important;
+
+    font-size: 8px !important;
+    font-weight: 700 !important;
+
+    letter-spacing: 1.8px !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   D-PAD CONTAINER
+   ========================================================= */
+
+#universalMovementControls .mobile-dpad {
+
+    position: relative !important;
+
+    width: 150px !important;
+    height: 150px !important;
+
+    flex: 0 0 150px !important;
+
+    display: block !important;
+
+    pointer-events: auto !important;
+
+    touch-action: none !important;
+}
+
+
+/* =========================================================
+   ALL BUTTONS
+   ========================================================= */
+
+#universalMovementControls .mobile-touch-button,
+#universalMovementControls .mobile-touch-center {
+
+    position: absolute !important;
+
+    width: 46px !important;
+    height: 46px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    box-sizing: border-box !important;
+
+    border-radius: 50% !important;
+
+    transform: none !important;
+}
+
+
+/* =========================================================
+   BUTTON DESIGN
+   ========================================================= */
+
+#universalMovementControls .mobile-touch-button {
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,0.18),
+            rgba(255,255,255,0.04)
+        ),
+        rgba(8,13,25,0.95) !important;
+
+    border: 1px solid rgba(255,255,255,0.20) !important;
+
+    color: white !important;
+
+    font-size: 18px !important;
+    font-weight: 900 !important;
+
+    line-height: 1 !important;
+
+    box-shadow:
+        0 8px 22px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.12) !important;
+
+    cursor: pointer !important;
+
+    pointer-events: auto !important;
+
+    touch-action: none !important;
+
+    user-select: none !important;
+    -webkit-user-select: none !important;
+
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+
+/* =========================================================
+   FIXED POSITIONS
+   ========================================================= */
+
+/* ▲ TOP */
+
+#universalMovementControls
+.mobile-touch-button[data-direction="up"] {
+
+    left: 52px !important;
+    top: 0 !important;
+
+}
+
+
+/* ◀ LEFT */
+
+#universalMovementControls
+.mobile-touch-button[data-direction="left"] {
+
+    left: 0 !important;
+    top: 52px !important;
+
+}
+
+
+/* ▶ RIGHT */
+
+#universalMovementControls
+.mobile-touch-button[data-direction="right"] {
+
+    left: 104px !important;
+    top: 52px !important;
+
+}
+
+
+/* ▼ BOTTOM */
+
+#universalMovementControls
+.mobile-touch-button[data-direction="down"] {
+
+    left: 52px !important;
+    top: 104px !important;
+
+}
+
+
+/* =========================================================
+   CENTER
+   ========================================================= */
+
+#universalMovementControls .mobile-touch-center {
+
+    left: 52px !important;
+    top: 52px !important;
+
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: rgba(255,205,225,0.45) !important;
+
+    background: rgba(255,255,255,0.025) !important;
+
+    border: 1px solid rgba(255,255,255,0.08) !important;
+
+    pointer-events: none !important;
+}
+
+
+/* =========================================================
+   BUTTON PRESS
+   ========================================================= */
+
+#universalMovementControls
+.mobile-touch-button:active,
+#universalMovementControls
+.mobile-touch-button.active {
+
+    transform: scale(0.90) !important;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(155,124,255,0.5),
+            rgba(8,13,25,0.96)
+        ) !important;
+
+    border-color: rgba(210,195,255,0.8) !important;
+
+    box-shadow:
+        0 0 20px rgba(155,124,255,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.2) !important;
+}
+
+
+/* =========================================================
+   DESKTOP
+   ========================================================= */
+
+@media (min-width: 801px) {
+
+    #universalMovementControls {
+
+        left: 28px !important;
+        bottom: 28px !important;
+
+        transform: scale(0.92) !important;
+
+        transform-origin: bottom left !important;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 800px) {
+
+    #universalMovementControls {
+
+        left: 16px !important;
+        bottom: 92px !important;
+
+        transform: scale(0.92) !important;
+
+        transform-origin: bottom left !important;
+    }
+}
+
+
+/* =========================================================
+   SMALL PHONES
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    #universalMovementControls {
+
+        left: 12px !important;
+        bottom: 92px !important;
+
+        transform: scale(0.86) !important;
+
+        transform-origin: bottom left !important;
+    }
+}
+
+
+/* =========================================================
+   LANDSCAPE PHONE
+   ========================================================= */
+
+@media (max-height: 600px) and (orientation: landscape) {
+
+    #universalMovementControls {
+
+        left: 14px !important;
+        bottom: 14px !important;
+
+        transform: scale(0.76) !important;
+
+        transform-origin: bottom left !important;
+    }
+}

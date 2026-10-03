@@ -1414,47 +1414,53 @@
                 </div>
 
 
-                <!-- MOBILE UP -->
+                <!-- UNIVERSAL MOVEMENT D-PAD -->
 
-                <div class="mobile-controls">
+<div
+    class="mobile-controls"
+    id="universalMovementControls"
+    aria-label="Movement controls"
+>
 
-                    <button
-                        data-direction="up"
-                        type="button"
-                    >
-                        ▲
-                    </button>
+    <div class="mobile-controls-label">
+        MOVE
+    </div>
 
-                </div>
+    <div class="mobile-dpad">
 
+        <button
+            class="mobile-touch-button"
+            data-direction="up"
+            type="button"
+            aria-label="Move up"
+        >▲</button>
 
-                <!-- MOBILE DIRECTION CONTROLS -->
+        <button
+            class="mobile-touch-button"
+            data-direction="left"
+            type="button"
+            aria-label="Move left"
+        >◀</button>
 
-                <div class="mobile-controls">
+        <div class="mobile-touch-center">✦</div>
 
-                    <button
-                        data-direction="left"
-                        type="button"
-                    >
-                        ◀
-                    </button>
+        <button
+            class="mobile-touch-button"
+            data-direction="right"
+            type="button"
+            aria-label="Move right"
+        >▶</button>
 
-                    <button
-                        data-direction="down"
-                        type="button"
-                    >
-                        ▼
-                    </button>
+        <button
+            class="mobile-touch-button"
+            data-direction="down"
+            type="button"
+            aria-label="Move down"
+        >▼</button>
 
-                    <button
-                        data-direction="right"
-                        type="button"
-                    >
-                        ▶
-                    </button>
+    </div>
 
-                </div>
-
+</div>
             </div>
 
         </section>

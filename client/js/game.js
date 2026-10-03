@@ -6795,13 +6795,13 @@ event.preventDefault();
 
                         const buttons =
                             document.querySelectorAll(
-                                ".mobile-controls button"
+                                "#universalMovementControls .mobile-touch-button"
                             );
 
                         if (!buttons.length) {
 
                             console.warn(
-                                "⚠️ Mobile control buttons not found."
+                                "⚠️ Universal movement buttons not found."
                             );
 
                             return;
@@ -6811,7 +6811,7 @@ event.preventDefault();
                             button => {
 
                                 if (
-                                    button.dataset.mobileBound ===
+                                    button.dataset.universalBound ===
                                     "true"
                                 ) {
                                     return;
@@ -6826,59 +6826,61 @@ event.preventDefault();
                                         "down",
                                         "left",
                                         "right"
-                                    ].includes(
-                                        direction
-                                    )
+                                    ].includes(direction)
                                 ) {
                                     return;
                                 }
 
-                                button.dataset.mobileBound =
+                                button.dataset.universalBound =
                                     "true";
 
-                                const press =
-                                    event => {
+                                const press = event => {
 
+                                    event.preventDefault();
+                                    event.stopPropagation();
+
+                                    movementKeys.add(direction);
+
+                                    button.classList.add(
+                                        "mobile-control-active"
+                                    );
+
+                                    if (
+                                        event.pointerId !==
+                                            undefined &&
+                                        button.setPointerCapture
+                                    ) {
+                                        try {
+                                            button.setPointerCapture(
+                                                event.pointerId
+                                            );
+                                        } catch (error) {}
+                                    }
+                                };
+
+                                const release = event => {
+
+                                    if (event) {
                                         event.preventDefault();
                                         event.stopPropagation();
+                                    }
 
-                                        movementKeys.add(
-                                            direction
-                                        );
+                                    movementKeys.delete(direction);
 
-                                        button.classList.add(
-                                            "mobile-control-active"
-                                        );
+                                    button.classList.remove(
+                                        "mobile-control-active"
+                                    );
+                                };
 
-                                        if (
-                                            event.pointerId !==
-                                                undefined &&
-                                            button.setPointerCapture
-                                        ) {
-                                            try {
-                                                button.setPointerCapture(
-                                                    event.pointerId
-                                                );
-                                            } catch (error) {}
-                                        }
-                                    };
-
-                                const release =
-                                    event => {
-
-                                        event.preventDefault();
-                                        event.stopPropagation();
-
-                                        movementKeys.delete(
-                                            direction
-                                        );
-
-                                        button.classList.remove(
-                                            "mobile-control-active"
-                                        );
-                                    };
-
-                                // Modern Android/iPhone input.
+                                /*
+                                 * Pointer Events work for:
+                                 * - desktop mouse
+                                 * - laptop touchscreens
+                                 * - Android touch
+                                 * - iPhone/iPad touch
+                                 *
+                                 * No device detection is required.
+                                 */
                                 button.addEventListener(
                                     "pointerdown",
                                     press,
@@ -6903,22 +6905,18 @@ event.preventDefault();
                                     { passive: false }
                                 );
 
-                                // Fallback for browsers that prefer touch events.
                                 button.addEventListener(
-                                    "touchstart",
-                                    press,
-                                    { passive: false }
-                                );
+                                    "pointerleave",
+                                    event => {
 
-                                button.addEventListener(
-                                    "touchend",
-                                    release,
-                                    { passive: false }
-                                );
+                                        if (
+                                            event.pointerType ===
+                                            "mouse"
+                                        ) {
+                                            release(event);
+                                        }
 
-                                button.addEventListener(
-                                    "touchcancel",
-                                    release,
+                                    },
                                     { passive: false }
                                 );
 
@@ -6926,18 +6924,45 @@ event.preventDefault();
                                     "contextmenu",
                                     event => {
                                         event.preventDefault();
-                                    }
+                                    },
+                                    { passive: false }
                                 );
                             }
                         );
 
                         console.log(
-                            `📱 Mobile controls connected: ${buttons.length}`
+                            `🎮 Universal D-pad connected: ${buttons.length} buttons`
                         );
                     }
 
 
                     setupMobileControls();
+
+                    // =====================================
+                    // WINDOW BLUR
+                    // =====================================
+
+                    window.addEventListener(
+                        "blur",
+                        () => {
+
+                            movementKeys.clear();
+
+                            document
+                                .querySelectorAll(
+                                    "#universalMovementControls .mobile-touch-button"
+                                )
+                                .forEach(
+                                    button => {
+                                        button.classList.remove(
+                                            "mobile-control-active"
+                                        );
+                                    }
+                                );
+                        }
+                    );
+
+
 
                     // =====================================
                     // WINDOW BLUR
